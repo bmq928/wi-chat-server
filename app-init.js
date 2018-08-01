@@ -11,7 +11,7 @@ require('./socket.io/socket.io').socket_io.connect(io);
 require('./database/db-connect');
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../client')));
+// app.use(express.static(path.join(__dirname, '../client')));
 app.use(express.static(path.join(__dirname, './database/upload')));
 app.use(bodyParser.json());
 app.use('/api', routesApi);

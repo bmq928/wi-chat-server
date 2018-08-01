@@ -17,26 +17,40 @@ module.exports.getConversation = (req, res) => {
 				model: User
 			}
 		},
-        order: [[Message, 'sendAt', 'ASC']]
+		order: [[Message, 'sendAt', 'ASC']]
 	}).then(conver => {
 		if (conver) {
+			console.log("conver");
 			let numNewMess = 0;
-			conver.addUsers([req.decoded.id]);
-			getNewMess(req.decoded.id, req.body.name, function(rs) {
-				if(rs==1) {
-					numNewMess++;
-					conver.dataValues.lastMessFontWeight = "bolder";
-				}
-				res.send(response(200, 'SUCCESSFULLY', {user: req.decoded, conver: conver, numNewMess: numNewMess}));
-			})
+			conver.addUsers([req.decoded.id])
+				.then(function (result) {
+					if (result.length) {
+						if (conver.dataValues.Messages.length) {
+							numNewMess++;
+							conver.dataValues.lastMessFontWeight = "bolder";
+						}
+
+						res.send(response(200, 'SUCCESSFULLY', { user: req.decoded, conver: conver, numNewMess: numNewMess }));
+					} else {
+						getNewMess(req.decoded.id, req.body.name, function (rs) {
+							if (rs == 1) {
+								numNewMess++;
+								conver.dataValues.lastMessFontWeight = "bolder";
+							}
+							res.send(response(200, 'SUCCESSFULLY', { user: req.decoded, conver: conver, numNewMess: numNewMess }));
+						})
+					}
+				});
+			end(response(200, 'SUCCESSFULLY', { user: req.decoded, conver: conver, numNewMess: numNewMess }));
+			// })
 		} else {
 			Conversation.create({
 				name: req.body.name
 			}).then(conver => {
-				if(conver) {
+				if (conver) {
 					conver.addUsers([req.decoded.id]);
-					if(conver.name.indexOf('Help_Desk')!=-1) (socket_io.socket).broadcast.emit('join-help-desk', conver);
-					res.send(response(200, 'SUCCESSFULLY', {user: req.decoded, conver: conver}));
+					if (conver.name.indexOf('Help_Desk') != -1) (socket_io.socket).broadcast.emit('join-help-desk', conver);
+					res.send(response(200, 'SUCCESSFULLY', { user: req.decoded, conver: conver }));
 				}
 				else res.send(response(404, 'NOT FOUND & CREATE FAIL'));
 			}).catch(err => {
@@ -61,23 +75,34 @@ module.exports.getListConversation = (req, res) => {
 				model: User
 			}
 		},
-        order: [[Message, 'sendAt', 'ASC']]
+		order: [[Message, 'sendAt', 'ASC']]
 	}).then(list => {
 		if (list) {
 			let numNewMess = 0;
-			async.forEachOfSeries(list, function(conver, i, cb) {
-				conver.addUsers([req.decoded.id]);
-				getNewMess(req.decoded.id, conver.name, function(rs) {
-					if(rs==1) {
-						conver.dataValues.lastMessFontWeight = "bolder";
-						numNewMess++;
-					}
-					cb();
-				})
-			}, function(err) {
-				if(err) res.send(response(400, 'SOMETHING WENT WRONG: ' + err));
+			async.forEachOfSeries(list, function (conver, i, cb) {
+				conver.addUsers([req.decoded.id])
+					.then(function (result) {
+						if (result.length) {
+							if (conver.dataValues.Messages.length) {
+								numNewMess++;
+								conver.dataValues.lastMessFontWeight = "bolder";
+							}
+							cb();
+						} else {
+							getNewMess(req.decoded.id, conver.name, function (rs) {
+								if (rs == 1) {
+									conver.dataValues.lastMessFontWeight = "bolder";
+									numNewMess++;
+								}
+								cb();
+							})
+						}
+					});
+
+			}, function (err) {
+				if (err) res.send(response(400, 'SOMETHING WENT WRONG: ' + err));
 				else {
-					res.send(response(200, 'SUCCESSFULLY', {list: list, numNewMess: numNewMess}));
+					res.send(response(200, 'SUCCESSFULLY', { list: list, numNewMess: numNewMess }));
 				}
 			})
 		} else {
@@ -97,7 +122,7 @@ function getNewMess(idUser, nameConversation, cb) {
 			idUser: idUser
 		}
 	}).then(newMess => {
-		if(newMess) cb(1);
+		if (newMess) cb(1);
 		else cb(-1);
 	}).catch(err => {
 		cb(-1);

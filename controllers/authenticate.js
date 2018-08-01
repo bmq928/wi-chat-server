@@ -24,7 +24,8 @@ module.exports = function authenticate() {
                             User.create({
                                 username: decoded.username,
                                 password: '=========================',
-                                role: 2
+                                role: decoded.role,
+                                // idCompany: 1
                             }).then(user => {
                                 req.decoded = user.toJSON();
                                 next();
