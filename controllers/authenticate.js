@@ -2,7 +2,7 @@
 const User = require('../database/db-connect').User;
 const jwt = require('jsonwebtoken');
 let responseJSON = require('./response');
-
+let randomColor = require('./randomColor');
 module.exports = function authenticate() {
     return function (req, res, next) {
         let token = req.body.token || req.query.token || req.headers.authorization;
@@ -25,6 +25,7 @@ module.exports = function authenticate() {
                                 username: decoded.username,
                                 password: '=========================',
                                 role: decoded.role,
+                                color: randomColor()
                                 // idCompany: 1
                             }).then(user => {
                                 req.decoded = user.toJSON();

@@ -7,6 +7,7 @@ var Message = models.Message;
 var md5 = require('md5');
 var LOGIN_URL = 'http://admin.dev.i2g.cloud/login';
 var request = require('request');
+let randomColor = require('./randomColor');
 // const jwt = require('jsonwebtoken'); 
 
 let doPost = function (req, res, callback) {
@@ -43,7 +44,8 @@ module.exports.login = (req, res) => {
 								User.create({
 									username: decoded.username,
 									password: '======================',
-									role: decoded.role
+									role: decoded.role,
+									color: randomColor()
 								}).then(user => {
 									if(user) {
 										res.send(response(200, 'SUCCESSFULLY', {user: user, token: token}))
@@ -73,7 +75,8 @@ module.exports.register = (req, res) => {
 	User.create({
 		username: req.body.username,
 		password: md5(req.body.password),
-		role: req.body.role
+		role: req.body.role,
+		color: randomColor()
 	}).then(user => {
 		if (user)
 			res.send(response(200, 'SUCCESSFULLY', user));
