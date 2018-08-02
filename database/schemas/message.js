@@ -23,7 +23,9 @@ module.exports.define = function(sequelize, DataTypes) {
             allowNull: false
         },
         sendAt: {
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
+            defaultValue: new Date((new Date()).getTime())
+
         }
     });
 

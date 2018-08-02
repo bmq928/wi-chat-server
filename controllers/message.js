@@ -14,8 +14,8 @@ module.exports.postMessage = (req, res) => {
 		type: req.body.type,
 		idConversation: req.body.idConversation,
 		idSender: req.body.idSender,
-		// sendAt: req.body.sendAt
-		sendAt: new Date()
+		sendAt: req.body.sendAt
+		//sendAt: new Date()
 	}).then(message => {
 		if (message) {
 			abc(req.body.idSender, req.body.idConversation, function(rs) {

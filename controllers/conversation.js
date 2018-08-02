@@ -7,7 +7,7 @@ var NewMessage = models.NewMessage;
 var Op = models.Op;
 var socket_io = require('../socket.io/socket.io').socket_io;
 var async = require('async');
-
+var ti
 module.exports.getConversation = (req, res) => {
 	Conversation.findOne({
 		where: { name: req.body.name },
@@ -37,12 +37,16 @@ module.exports.getConversation = (req, res) => {
 								numNewMess++;
 								conver.dataValues.lastMessFontWeight = "bolder";
 							}
+							var x = conver.dataValues.Messages[2].dataValues.sendAt;
+							var offset = -x.getTimezoneOffset();
+							console.log(x);
+							console.log(x + (offset >= 0 ? "+" : "-") + parseInt(offset / 60) + ":" + offset % 60)
+							// let date = conver.dataValues.Messages[2].dataValues.sendAt;
+							// console.log(new Date(date));
 							res.send(response(200, 'SUCCESSFULLY', { user: req.decoded, conver: conver, numNewMess: numNewMess }));
 						})
 					}
 				});
-			end(response(200, 'SUCCESSFULLY', { user: req.decoded, conver: conver, numNewMess: numNewMess }));
-			// })
 		} else {
 			Conversation.create({
 				name: req.body.name
