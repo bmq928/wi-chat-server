@@ -9,9 +9,9 @@
                 "timestamps": false
             }
           },
-        "db_name": "chat_sflow_me",
+        "db_name": "wi_chat",
         "user": "root",
-        "password": ""
+        "password": "123456"
     },
     "app": {
         "port" : 5001,

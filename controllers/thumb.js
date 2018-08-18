@@ -39,7 +39,8 @@ module.exports.thumb = function(req, res) {
                     });
                 }
             });
-        }else{
+        }
+        else{
             thumb({
                 source: original_dir,
                 destination: thumb_dir,
