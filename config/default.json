@@ -15,7 +15,7 @@
     },
     "app": {
         "port" : 5001,
-        "URL": "http://127.0.0.1:5001",
+        "URL": "http://chat.dev.i2g.cloud",
         "upload_dir": "database/upload"
     }
 }
