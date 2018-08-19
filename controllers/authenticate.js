@@ -10,7 +10,7 @@ module.exports = function authenticate() {
             jwt.verify(token, 'secretKey', function (err, decoded) {
                 if (err) {
                     console.error(err);
-                    return res.status(401).send(responseJSON(401, 'Failed to authenticate' + err));
+                    return res.status(401).send(responseJSON(401, 'Failed to authenticate', err));
                 } else {
                     User.findOne({
                         where: {
@@ -31,14 +31,14 @@ module.exports = function authenticate() {
                                 req.decoded = user.toJSON();
                                 next();
                             }).catch(err => {
-                                return res.status(401).send(responseJSON(401, 'Failed to authenticate' + err));
+                                return res.status(401).send(responseJSON(401, 'Failed to authenticate', err));
                             });
                         }
                     });
                 }
             });
         } else {
-            return res.status(401).send(responseJSON(401, 'No token provided'));
+            return res.status(401).send(responseJSON(401, 'Failed to authenticate', 'No token'));
         }
     }
 }
