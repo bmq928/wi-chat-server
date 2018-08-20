@@ -7,7 +7,7 @@ var NewMessage = models.NewMessage;
 var Op = models.Op;
 var socket_io = require('../socket.io/socket.io').socket_io;
 var async = require('async');
-var ti
+
 module.exports.getConversation = (req, res) => {
 	Conversation.findOne({
 		where: { name: req.body.name },
@@ -91,7 +91,9 @@ module.exports.getListConversation = (req, res) => {
 									conver.dataValues.lastMessFontWeight = "bolder";
 									cb();
 								});
-							}
+                            } else {
+                                cb();
+                            }
 						} else {
 							getNewMess(req.decoded.id, conver.name, function (rs) {
 								if (rs == 1) {
