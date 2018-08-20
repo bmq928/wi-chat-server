@@ -8,13 +8,20 @@
             "define": {
                 "timestamps": false
             }
-          },
+        },
         "db_name": "chat_sflow_me",
         "user": "root",
         "password": ""
     },
+    "influx": {
+        "host": "localhost",
+        "port": 8086,
+        "username": "root",
+        "password": "",
+        "database": "wi-monitor"
+    },
     "app": {
-        "port" : 5001,
+        "port": 5001,
         "URL": "http://127.0.0.1:5001",
         "upload_dir": "database/upload"
     }

@@ -25,14 +25,12 @@ let doPost = function (req, res, callback) {
 module.exports.login = (req, res) => { 
 	doPost(req, res, function (body) {
 		if (body.code == 200) {
-			console.log(body.content.company);
 			let token = body.content.token;
 			if (token) {
 				jwt.verify(token, 'secretKey', function (err, decoded) {
 					if (err) {
 						res.send(response(401, 'Login Failed' + err));
 					} else {
-						console.log(decoded);
 						User.findOne({
 							where: {
 								username: decoded.username
@@ -69,38 +67,5 @@ module.exports.login = (req, res) => {
 		}
 	});
 
-}
-
-module.exports.register = (req, res) => {
-	User.create({
-		username: req.body.username,
-		password: md5(req.body.password),
-		role: req.body.role,
-		color: randomColor()
-	}).then(user => {
-		if (user)
-			res.send(response(200, 'SUCCESSFULLY', user));
-		else
-			res.send(response(404, 'NOT FOUND'));
-	}).catch(err => {
-		console.error(err);
-		res.send(response(400, 'SOMETHING WENT WRONG: ' + err));
-	});
-}
-module.exports.getUser = (req, res) => {
-	User.findOne({
-		where: {
-			username: req.body.username
-		}
-	}).then(user => {
-		if (user) {
-			res.send(response(200, 'SUCCESSFULLY', user));
-		} else {
-			res.send(response(404, 'NOT FOUND'));
-		}
-	}).catch(err => {
-		console.error(err);
-		res.send(response(400, 'SOMETHING WENT WRONG: ' + err));
-	});
 }
 
