@@ -24,7 +24,7 @@ router.post('/message/new', (req,res) => {
 	ctrlMessage.postMessage(req,res);
 });
 //seen message
-router.post('/seenMessage', (req,res) => {
+router.post('/message/seen', (req,res) => {
 	ctrlMessage.seenMessage(req,res);
 });
 //Conversation
@@ -32,7 +32,7 @@ router.post('/conversation', (req, res) => {
 	ctrlConversation.getConversation(req, res);
 });
 //List conversation
-router.post('/list/conversation', (req, res) => {
+router.post('/conversation/list/admin', (req, res) => {
 	ctrlConversation.getListConversation(req, res);
 })
 //upload

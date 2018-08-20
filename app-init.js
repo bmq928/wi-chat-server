@@ -17,31 +17,31 @@ app.use(bodyParser.json());
 const auth = require('./controllers/authenticate');
 app.use(auth());
 
-const influx = require('./database/influx');
-app.use(function (req, res, next) {
-    const start = Date.now();
-    // The 'finish' event will emit once the response is done sending
-    res.once('finish', (a) => {
-        // Emit an object that contains the original request and the elapsed time in MS
-        let duration = Date.now() - start;
-        if (req.originalUrl == '/login') {
-            next();
-        } else {
-            console.log(req.decoded.username, req.ip, req.method, req.originalUrl, `${duration}ms`);
-            influx.writePoints([
-                {
-                    measurement: 'monitor_chat',
-                    tags: { username: req.decoded.username, path: req.originalUrl, },
-                    fields: { duration, ipaddr: req.ip, pid: process.pid },
-                }
-            ]).catch(err => {
-                next();
-                console.error(`Error saving data to InfluxDB! ${err.stack}`)
-            })
-        }
-    });
-    next();
-});
+// const influx = require('./database/influx');
+// app.use(function (req, res, next) {
+//     const start = Date.now();
+//     // The 'finish' event will emit once the response is done sending
+//     res.once('finish', (a) => {
+//         // Emit an object that contains the original request and the elapsed time in MS
+//         let duration = Date.now() - start;
+//         if (req.originalUrl == '/login') {
+//             next();
+//         } else {
+//             console.log(req.decoded.username, req.ip, req.method, req.originalUrl, `${duration}ms`);
+//             influx.writePoints([
+//                 {
+//                     measurement: 'monitor_chat',
+//                     tags: { username: req.decoded.username, path: req.originalUrl, },
+//                     fields: { duration, ipaddr: req.ip, pid: process.pid },
+//                 }
+//             ]).catch(err => {
+//                 next();
+//                 console.error(`Error saving data to InfluxDB! ${err.stack}`)
+//             })
+//         }
+//     });
+//     next();
+// });
 
 app.use('/api', routesApi);
 app.use('/', loginApi);

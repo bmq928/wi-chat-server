@@ -30,6 +30,8 @@ module.exports.login = (req, res) => {
 				jwt.verify(token, 'secretKey', function (err, decoded) {
 					if (err) {
 						res.send(response(401, 'Login Failed' + err));
+					} else if (decoded.role != 1 && decoded.role != 0) {
+						res.send(response(401, 'Login Failed' + err));
 					} else {
 						User.findOne({
 							where: {

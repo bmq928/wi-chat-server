@@ -46,8 +46,9 @@ module.exports.getConversation = (req, res) => {
 				name: req.body.name
 			}).then(conver => {
 				if (conver) {
+					console.log(conver);
 					conver.addUsers([req.decoded.id]);
-					if (conver.name.indexOf('Help_Desk') != -1) (socket_io.socket).broadcast.emit('join-help-desk', conver);
+					if (conver.dataValues.name.indexOf('Help_Desk') != -1) (socket_io.socket).broadcast.emit('join-help-desk', conver);
 					res.send(response(200, 'SUCCESSFULLY', { user: req.decoded, conver: conver }));
 				}
 				else res.send(response(404, 'NOT FOUND & CREATE FAIL'));
@@ -82,10 +83,15 @@ module.exports.getListConversation = (req, res) => {
 					.then(function (result) {
 						if (result.length) {
 							if (conver.dataValues.Messages.length) {
-								numNewMess++;
-								conver.dataValues.lastMessFontWeight = "bolder";
+								NewMessage.create({
+									idUser: req.decoded.id,
+									nameConversation: conver.dataValues.name
+								}).then(nm => {
+									numNewMess++;
+									conver.dataValues.lastMessFontWeight = "bolder";
+									cb();
+								});
 							}
-							cb();
 						} else {
 							getNewMess(req.decoded.id, conver.name, function (rs) {
 								if (rs == 1) {
