@@ -1,3 +1,5 @@
+import { dirname } from 'path';
+
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
@@ -14,6 +16,9 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, './database/upload')));
 app.use(bodyParser.json());
 
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '../wi-chat-client/public/index.html'))
+})
 const auth = require('./controllers/authenticate');
 app.use(auth());
 
