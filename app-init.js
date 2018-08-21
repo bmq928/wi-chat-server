@@ -14,11 +14,13 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, './database/upload')));
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
-    res.send({content: 'ok'});
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '../wi-chat-client/public/index.html'))
+    // res.send({content: 'ok'});
 })
-const auth = require('./controllers/authenticate');
-app.use(auth());
+
+//const auth = require('./controllers/authenticate');
+//app.use(auth());
 
 // const influx = require('./database/influx');
 // app.use(function (req, res, next) {
