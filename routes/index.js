@@ -11,9 +11,9 @@ var ctrlUser = require('../controllers/user');
 var ctrlUpload = require('../controllers/upload.js');
 var ctrlThumb = require('../controllers/thumb.js');
 var ctrlImageOrigin = require('../controllers/imageOrigin.js');
-// const auth = require('../controllers/authenticate');
+const auth = require('../controllers/authenticate');
 
-// router.use(auth());
+router.use(auth());
 
 //user
 router.post('/user', (req, res) => {

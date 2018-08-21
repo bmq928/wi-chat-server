@@ -1,5 +1,3 @@
-import { dirname } from 'path';
-
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
@@ -16,11 +14,11 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, './database/upload')));
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '../wi-chat-client/public/index.html'))
-})
-const auth = require('./controllers/authenticate');
-app.use(auth());
+app.use('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../wi-chat-client/public','index.html'));
+});
+// const auth = require('./controllers/authenticate');
+// app.use(auth());
 
 // const influx = require('./database/influx');
 // app.use(function (req, res, next) {
@@ -29,7 +27,8 @@ app.use(auth());
 //     res.once('finish', (a) => {
 //         // Emit an object that contains the original request and the elapsed time in MS
 //         let duration = Date.now() - start;
-//         if (req.originalUrl == '/login') {
+//         console.log(req.originalUrl);
+//         if (req.originalUrl == '/login' || req.decoded === 'undefined') {
 //             next();
 //         } else {
 //             console.log(req.decoded.username, req.ip, req.method, req.originalUrl, `${duration}ms`);
