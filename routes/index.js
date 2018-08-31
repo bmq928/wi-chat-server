@@ -1,6 +1,8 @@
 
 const multiparty = require('connect-multiparty');
-const multipartyMiddleware = multiparty();
+const multipartyMiddleware = multiparty({
+    maxFilesSize: 50*1024*1024
+});
 var express = require('express');
 var router = express.Router();
 var PATH = require('path');
