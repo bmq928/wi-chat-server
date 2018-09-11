@@ -11,19 +11,18 @@ let randomColor = require('./randomColor');
 // const jwt = require('jsonwebtoken'); 
 
 let doPost = function (req, res, callback) {
-
 	request({
 		method: 'POST',
 		url: LOGIN_URL,
 		json: true,
 		body: req.body
 	}, function (err, response, body) {
-		callback(body);
+        callback(body);
 	});
 }
 
 module.exports.login = (req, res) => { 
-	doPost(req, res, function (body) {
+    doPost(req, res, function (body) {
 		if (body.code == 200) {
 			let token = body.content.token;
 			if (token) {
@@ -45,7 +44,7 @@ module.exports.login = (req, res) => {
 									username: decoded.username,
 									password: '======================',
 									role: decoded.role,
-									color: randomColor()
+                                    color: randomColor()
 								}).then(user => {
 									if(user) {
 										res.send(response(200, 'SUCCESSFULLY', {user: user, token: token}))
