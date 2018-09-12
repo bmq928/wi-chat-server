@@ -16,7 +16,6 @@ SOCKET_IO.connect = function (io) {
                 }
             }
             if(!check) listRoom[data.idConversation].push(data.username);
-            console.log(listRoom);
             io.in(data.idConversation).emit('send-members-online', listRoom[data.idConversation]);
         });
         socket.on('sendMessage', function (data) {

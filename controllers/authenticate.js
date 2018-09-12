@@ -18,6 +18,7 @@ module.exports = function authenticate() {
                         console.error(err);
                         return res.status(401).send(responseJSON(401, 'Failed to authenticate' + err));
                     } else {
+                        console.log(decoded);
                         User.findOne({
                             where: {
                                 username: decoded.username

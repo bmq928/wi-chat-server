@@ -22,7 +22,7 @@ let doPost = function (req, res, url, token, callback) {
 			'Authorization': token
 		  }
 	}, function (err, response, body) {
-		callback(body);
+        callback(body);
 	});
 }
 
@@ -34,7 +34,7 @@ module.exports.login = (req, res) => {
 				jwt.verify(token, 'secretKey', function (err, decoded) {
 					if (err) {
 						res.send(response(401, 'Login Failed' + err));
-					} else if (decoded.role != 1 && decoded.role != 0) {
+					} else if (decoded.role != 0) {
 						res.send(response(401, 'Login Failed' + err));
 					} else {
 						User.findOne({
@@ -49,7 +49,7 @@ module.exports.login = (req, res) => {
 									username: decoded.username,
 									password: '======================',
 									role: decoded.role,
-									color: randomColor()
+                                    color: randomColor()
 								}).then(user => {
 									if(user) {
 										res.send(response(200, 'SUCCESSFULLY', {user: user, token: token}))
