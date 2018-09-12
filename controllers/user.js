@@ -6,24 +6,28 @@ var Conversation = models.Conversation;
 var Message = models.Message;
 var md5 = require('md5');
 var LOGIN_URL = 'http://admin.dev.i2g.cloud/login';
+var LIST_USER_URL = 'https://admin.dev.i2g.cloud/user/list';
+var LIST_COMPANY_URL = 'http://admin.dev.i2g.cloud/company/list';
 var request = require('request');
 let randomColor = require('./randomColor');
 // const jwt = require('jsonwebtoken'); 
 
-let doPost = function (req, res, callback) {
-
+let doPost = function (req, res, url, token, callback) {
 	request({
 		method: 'POST',
-		url: LOGIN_URL,
+		url: url,
 		json: true,
-		body: req.body
+		body: req.body,
+		headers: {
+			'Authorization': token
+		  }
 	}, function (err, response, body) {
 		callback(body);
 	});
 }
 
 module.exports.login = (req, res) => { 
-	doPost(req, res, function (body) {
+	doPost(req, res, LOGIN_URL, '', function (body) {
 		if (body.code == 200) {
 			let token = body.content.token;
 			if (token) {
@@ -68,6 +72,25 @@ module.exports.login = (req, res) => {
 			res.send(response(400, 'LOGIN FAIL', body.content))
 		}
 	});
-
 }
 
+module.exports.getListUser = (req, res) => {
+	let token = req.body.token;
+	doPost(req, res, LIST_USER_URL, token, function(body) {
+		if (body.code == 200) {
+			res.send(response(200, 'GET LIST USER SUCCESS', {body: body}))
+		} else {
+			res.send(response(400, 'GET LIST USER FAIL', body.content))
+		}
+	})
+}
+
+module.exports.getListCompany = (req, res) => {
+	doPost(req, res, LIST_COMPANY_URL, '', function(body) {
+		if (body.code == 200) {
+			res.send(response(200, 'GET LIST COMPANY SUCCESS', {body: body}))
+		} else {
+			res.send(response(400, 'GET LIST COMPANY FAIL', body.content))
+		}
+	})
+}

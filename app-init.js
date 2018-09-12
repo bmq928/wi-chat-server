@@ -14,9 +14,10 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, './database/upload')));
 app.use(bodyParser.json());
 
-app.use('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../wi-chat-client/public','index.html'));
-});
+// app.use('/', (req, res) => {
+//     //res.sendFile(path.join(__dirname, '../wi-chat-client/public','index.html'));
+//     res.send({content: "ok"});
+// });
 // const auth = require('./controllers/authenticate');
 // app.use(auth());
 

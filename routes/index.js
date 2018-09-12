@@ -19,6 +19,14 @@ router.use(auth());
 router.post('/user', (req, res) => {
 	ctrlUser.getUser(req,res);
 });
+//list user from wi-server
+router.post('/user/list', (req, res) => {
+	ctrlUser.getListUser(req, res);
+});
+//list company from wi-server
+router.post('/company/list', (req, res) => {
+	ctrlUser.getListCompany(req, res);
+})
 //message
 router.post('/message/new', (req,res) => {
 	ctrlMessage.postMessage(req,res);
