@@ -28,6 +28,7 @@ let doPost = function (req, res, url, token, callback) {
 
 module.exports.login = (req, res) => { 
 	doPost(req, res, LOGIN_URL, '', function (body) {
+		console.log("body",body);
 		if (body.code == 200) {
 			let token = body.content.token;
 			if (token) {

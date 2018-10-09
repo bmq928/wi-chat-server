@@ -13,6 +13,8 @@ var ctrlUser = require('../controllers/user');
 var ctrlUpload = require('../controllers/upload.js');
 var ctrlThumb = require('../controllers/thumb.js');
 var ctrlImageOrigin = require('../controllers/imageOrigin.js');
+var ctrlSocket = require('../controllers/socket.js');
+
 const auth = require('../controllers/authenticate');
 
 router.use(auth());
@@ -60,5 +62,8 @@ router.get('/imageOrigin/:folder/:fileName', (req, res) => {
 router.get('/thumb/:folder/:fileName', (req, res) => {
     ctrlThumb.thumb(req, res);
 });
-
+//monitor socket
+router.get('/monitor', (req, res) => {
+	ctrlSocket.getMonitor(req, res);
+})
 module.exports = router;

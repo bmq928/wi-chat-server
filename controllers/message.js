@@ -9,6 +9,7 @@ var op = models.Op;
 var async = require('async');
 
 module.exports.postMessage = (req, res) => {
+	console.log('send mess');
 	Message.create({
 		content: req.body.content,
 		type: req.body.type,

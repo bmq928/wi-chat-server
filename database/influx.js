@@ -11,9 +11,14 @@ const influx = new Influx.InfluxDB({
             measurement: 'monitor_chat',
             tags: ['username', 'path'],
             fields: {
-                duration: Influx.FieldType.INTEGER,
-                ipaddr: Influx.FieldType.STRING,
-                pid: Influx.FieldType.STRING
+                num: Influx.FieldType.INTEGER,
+             }
+        },
+        {
+            measurement: 'monitor_socket_chat',
+            tags: ['socketId'],
+            fields: {
+               num: Influx.FieldType.INTEGER,
             }
         }
     ]

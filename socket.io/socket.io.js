@@ -1,7 +1,12 @@
+const influx = require('../database/influx');
 let SOCKET_IO = {};
+let IO = {};
 SOCKET_IO.connect = function (io) {
+    IO = io;
     let listRoom = [];
+    let count = 0;
     io.on('connection', function (socket) {
+        connectionCount(io.eio.clientsCount, socket.id);
         SOCKET_IO.socket = socket;
         socket.on('join-room', function (data) {
             socket.idRoom = data.idConversation;
@@ -42,3 +47,17 @@ SOCKET_IO.connect = function (io) {
     });
 };
 module.exports.socket_io = SOCKET_IO;
+module.exports.io = IO;
+
+function connectionCount(num, socketId) {
+    influx.writePoints([
+        {
+            measurement: 'monitor_socket_chat',
+            tags: { socketId: socketId },
+            fields: { num: num },
+        }
+    ]).catch(err => {
+        next();
+        console.error(`Error saving data to InfluxDB! ${err.stack}`)
+    })
+}
