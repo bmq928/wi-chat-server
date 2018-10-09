@@ -9,7 +9,7 @@
                 "timestamps": false
             }
         },
-        "db_name": "",
+        "db_name": "wi_chat",
         "user": "root",
         "password": "123456"
     },
