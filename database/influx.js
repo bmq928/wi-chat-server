@@ -19,6 +19,7 @@ const influx = new Influx.InfluxDB({
             tags: ['socketId'],
             fields: {
                num: Influx.FieldType.INTEGER,
+               status: Influx.FieldType.STRING
             }
         }
     ]

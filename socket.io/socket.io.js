@@ -6,7 +6,7 @@ SOCKET_IO.connect = function (io) {
     let listRoom = [];
     let count = 0;
     io.on('connection', function (socket) {
-        connectionCount(io.eio.clientsCount, socket.id);
+        connectionCount(io.eio.clientsCount, socket.id, 'IN');
         SOCKET_IO.socket = socket;
         socket.on('join-room', function (data) {
             socket.idRoom = data.idConversation;
@@ -36,6 +36,7 @@ SOCKET_IO.connect = function (io) {
             io.in(data.idConversation).emit('off-project', data);
         });
         socket.on('disconnect', function() {
+            connectionCount(io.eio.clientsCount, socket.id, 'OUT');
             listRoom.forEach(function(room, index){
                 room.forEach(function(username, i) {
                     if(username == socket.username) room.splice(i, 1);
@@ -49,12 +50,12 @@ SOCKET_IO.connect = function (io) {
 module.exports.socket_io = SOCKET_IO;
 module.exports.io = IO;
 
-function connectionCount(num, socketId) {
+function connectionCount(num, socketId, status) {
     influx.writePoints([
         {
             measurement: 'monitor_socket_chat',
             tags: { socketId: socketId },
-            fields: { num: num },
+            fields: { num: num, status: status },
         }
     ]).catch(err => {
         next();
