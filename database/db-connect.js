@@ -5,8 +5,18 @@ var Sequelize = require('sequelize');
 var basename = path.basename(module.filename);
 
 var configDb = require('config').get('db');
+let env = process.env;
+let db_options = {
+    host: env.DB_HOST || configDb.options.host || 'localhost',
+    port: env.DB_PORT || configDb.options.port || 3306,
+    dialect: env.DB_DIALECT || configDb.options.dialect || 'mysql',
+    timezone: env.DB_TIMEZONE || configDb.options.timezone || '+07:00',
+    define: {
+        timestamps: env.TIMESTAMPS || (configDb.options.define || {}).timestamps || false
+    }
+}
 
-var sequelize = new Sequelize(configDb.db_name, configDb.user, configDb.password, configDb.options);
+var sequelize = new Sequelize(env.DB_NAME || configDb.db_name, env.DB_USER || configDb.user, env.DB_PASSWORD || configDb.password, db_options);
 var Op = Sequelize.Op;
 var db = {};
 

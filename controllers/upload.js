@@ -4,11 +4,12 @@ var PATH = require('path');
 var directoryExists = require('directory-exists');
 
 var configPath = require('config').get('app');
+let env = process.env;
 
 // const URL = 'http://54.169.149.206:5001';
 
 module.exports.upload = (req, res) => {
-    let folderUpload = PATH.join(__dirname, '../' + configPath.upload_dir + '/' + req.body.name);
+    let folderUpload = PATH.join(__dirname, '../' + (env.UPLOAD_DIR || configPath.upload_dir) + '/' + req.body.name);
     directoryExists(folderUpload, (error, result) => {
         if (!result) {
             fs.mkdir(folderUpload, function (err) {
@@ -19,14 +20,14 @@ module.exports.upload = (req, res) => {
                     console.log('******MKDIR UPLOAD SUCCESS********');
                     let file = req.files.file;
                     let fileName = Date().split(' ').join('') + file.name;
-                    let path = PATH.join(__dirname, '../' + configPath.upload_dir + '/' + req.body.name + '/' + fileName);
+                    let path = PATH.join(__dirname, '../' + (env.UPLOAD_DIR || configPath.upload_dir) + '/' + req.body.name + '/' + fileName);
                     fs.copyFile(file.path, path, (err) => {
                         if (err) {
                             res.send(jsonResponse(400, 'UPLOAD FAIL: ' + err));
                         }
                         else {
                             console.log('****UPLOAD SUCCESS****');
-                            res.send(jsonResponse(200, 'SUCCESSFULLY', configPath.URL + '/' + req.body.name + '/' + fileName));
+                            res.send(jsonResponse(200, 'SUCCESSFULLY', (env.URL || configPath.URL) + '/' + req.body.name + '/' + fileName));
                         }
                     });
                 }
@@ -34,7 +35,7 @@ module.exports.upload = (req, res) => {
         } else {
             let file = req.files.file;
             let fileName = Date().split(' ').join('') + file.name;
-            let path = PATH.join(__dirname, '../' + configPath.upload_dir + '/' + req.body.name + '/' + fileName);
+            let path = PATH.join(__dirname, '../' + (env.UPLOAD_DIR || configPath.upload_dir) + '/' + req.body.name + '/' + fileName);
             fs.copyFile(file.path, path, (err) => {
                 console.log(err);
                 if (err) {
@@ -42,7 +43,7 @@ module.exports.upload = (req, res) => {
                 }
                 else {
                     console.log('****UPLOAD SUCCESS****');
-                    res.send(jsonResponse(200, 'SUCCESSFULLY', configPath.URL + '/' + req.body.name + '/' + fileName));
+                    res.send(jsonResponse(200, 'SUCCESSFULLY', (env.URL || configPath.URL) + '/' + req.body.name + '/' + fileName));
                 }
             });
         }

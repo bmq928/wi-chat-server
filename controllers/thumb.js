@@ -7,10 +7,11 @@ var md5 = require('md5');
 const WIDTH_IMAGE_THUMB = 200;
 
 var configPath = require('config').get('app');
+let env = process.env;
 
 module.exports.thumb = function(req, res) {
-    var original_dir = path.join(__dirname, '../' + configPath.upload_dir + '/'+req.params.folder+'/'+req.params.fileName);
-    var thumb_dir = path.join(__dirname, '../' + configPath.upload_dir + '/'+ req.params.folder);
+    var original_dir = path.join(__dirname, '../' + (env.UPLOAD_DIR || configPath.upload_dir) + '/'+req.params.folder+'/'+req.params.fileName);
+    var thumb_dir = path.join(__dirname, '../' + (env.UPLOAD_DIR || configPath.upload_dir) + '/'+ req.params.folder);
     // var thumb_dir = path.join(__dirname, '../' + configPath.upload_dir + '/'+ req.params.folder+ '/thumb');
     thumb({
          source: original_dir,

@@ -16,31 +16,31 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '../wi-chat-client/public')));
 
-app.get('/', function (req, res) {
-    //res.sendFile(path.join(__dirname, '../wi-chat-client/public/index.html'))
-    
-    res.sendFile(path.join(__dirname, '../Caro-Online/client/index.html'))
-    //res.send({content: 'ok'});
-})
+//app.get('/', function (req, res) {
+    ////res.sendFile(path.join(__dirname, '../wi-chat-client/public/index.html'))
+    //
+    //res.sendFile(path.join(__dirname, '../Caro-Online/client/index.html'))
+    ////res.send({content: 'ok'});
+//})
 
-const influx = require('./database/influx');
+//const influx = require('./database/influx');
 app.use(function (req, res, next) {
     res.once('finish', (a) => {
-        console.log('influx');
+        //console.log('influx');
         if (req.originalUrl == '/login' || req.decoded === 'undefined') {
             next();
         } else {
             console.log(req.decoded.username, req.ip, req.method, req.originalUrl);
-            influx.writePoints([
-                {
-                    measurement: 'monitor_chat',
-                    tags: { username: req.decoded.username, path: req.originalUrl },
-                    fields: { num: 1 },
-                }
-            ]).catch(err => {
-                next();
-                console.error(`Error saving data to InfluxDB! ${err.stack}`)
-            })
+            //influx.writePoints([
+                //{
+                    //measurement: 'monitor_chat',
+                    //tags: { username: req.decoded.username, path: req.originalUrl },
+                    //fields: { num: 1 },
+                //}
+            //]).catch(err => {
+                //next();
+                //console.error(`Error saving data to InfluxDB! ${err.stack}`)
+            //})
         }
     });
     next();

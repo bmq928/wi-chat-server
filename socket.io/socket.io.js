@@ -1,4 +1,4 @@
-const influx = require('../database/influx');
+//const influx = require('../database/influx');
 let SOCKET_IO = {};
 let IO = {};
 SOCKET_IO.connect = function (io) {
@@ -51,14 +51,14 @@ module.exports.socket_io = SOCKET_IO;
 module.exports.io = IO;
 
 function connectionCount(num, socketId, status) {
-    influx.writePoints([
-        {
-            measurement: 'monitor_socket_chat',
-            tags: { socketId: socketId },
-            fields: { num: num, status: status },
-        }
-    ]).catch(err => {
-        next();
-        console.error(`Error saving data to InfluxDB! ${err.stack}`)
-    })
+    //influx.writePoints([
+        //{
+            //measurement: 'monitor_socket_chat',
+            //tags: { socketId: socketId },
+            //fields: { num: num, status: status },
+        //}
+    //]).catch(err => {
+        //next();
+        //console.error(`Error saving data to InfluxDB! ${err.stack}`)
+    //})
 }

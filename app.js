@@ -1,5 +1,5 @@
 let configApp = require('config').get('app');
-const PORT = configApp.port;
+const PORT = process.env.CHAT_PORT || process.env.PORT || configApp.port;
 const path = require('path');
 
 let appProfile = require('./app-init');
