@@ -5,9 +5,10 @@ var User = models.User;
 var Conversation = models.Conversation;
 var Message = models.Message;
 var md5 = require('md5');
-var LOGIN_URL = 'http://admin.dev.i2g.cloud/login';
-var LIST_USER_URL = 'https://admin.dev.i2g.cloud/user/list';
-var LIST_COMPANY_URL = 'http://admin.dev.i2g.cloud/company/list';
+var config = require('config');
+var LOGIN_URL = process.env.LOGIN_URL || config.login_url || 'http://admin.dev.i2g.cloud/login';
+var LIST_USER_URL = process.env.LIST_USER_URL || config.list_user_url || 'https://admin.dev.i2g.cloud/user/list';
+var LIST_COMPANY_URL = process.env.LIST_COMPANY_URL || config.list_company_url || 'http://admin.dev.i2g.cloud/company/list';
 var request = require('request');
 let randomColor = require('./randomColor');
 // const jwt = require('jsonwebtoken'); 
@@ -22,13 +23,15 @@ let doPost = function (req, res, url, token, callback) {
 			'Authorization': token
 		  }
 	}, function (err, response, body) {
+        console.log(err);
+        console.log(response);
+        console.log(body)
         callback(body);
 	});
 }
 
 module.exports.login = (req, res) => { 
-	doPost(req, res, process.env.LOGIN_URL || LOGIN_URL, '', function (body) {
-		console.log("body",body);
+	doPost(req, res, LOGIN_URL, '', function (body) {
 		if (body.code == 200) {
 			let token = body.content.token;
 			if (token) {
@@ -77,7 +80,7 @@ module.exports.login = (req, res) => {
 
 module.exports.getListUser = (req, res) => {
 	let token = req.body.token;
-	doPost(req, res, process.env.LIST_USER_URL || LIST_USER_URL, token, function(body) {
+	doPost(req, res, LIST_USER_URL, token, function(body) {
 		if (body.code == 200) {
 			res.send(response(200, 'GET LIST USER SUCCESS', {body: body}))
 		} else {
@@ -87,7 +90,7 @@ module.exports.getListUser = (req, res) => {
 }
 
 module.exports.getListCompany = (req, res) => {
-	doPost(req, res, process.env.LIST_COMPANY_URL || LIST_COMPANY_URL, '', function(body) {
+	doPost(req, res, LIST_COMPANY_URL, '', function(body) {
 		if (body.code == 200) {
 			res.send(response(200, 'GET LIST COMPANY SUCCESS', {body: body}))
 		} else {
