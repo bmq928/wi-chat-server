@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, './database/upload')));
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '../wi-chat-client/public')));
+//app.use(express.static(path.join(__dirname, '../wi-chat-client/public')));
 
 //app.get('/', function (req, res) {
     ////res.sendFile(path.join(__dirname, '../wi-chat-client/public/index.html'))
