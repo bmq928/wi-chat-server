@@ -27,7 +27,7 @@ let doPost = function (req, res, url, token, callback) {
 }
 
 module.exports.login = (req, res) => { 
-	doPost(req, res, LOGIN_URL, '', function (body) {
+	doPost(req, res, process.env.LOGIN_URL || LOGIN_URL, '', function (body) {
 		console.log("body",body);
 		if (body.code == 200) {
 			let token = body.content.token;
@@ -77,7 +77,7 @@ module.exports.login = (req, res) => {
 
 module.exports.getListUser = (req, res) => {
 	let token = req.body.token;
-	doPost(req, res, LIST_USER_URL, token, function(body) {
+	doPost(req, res, process.env.LIST_USER_URL || LIST_USER_URL, token, function(body) {
 		if (body.code == 200) {
 			res.send(response(200, 'GET LIST USER SUCCESS', {body: body}))
 		} else {
@@ -87,7 +87,7 @@ module.exports.getListUser = (req, res) => {
 }
 
 module.exports.getListCompany = (req, res) => {
-	doPost(req, res, LIST_COMPANY_URL, '', function(body) {
+	doPost(req, res, process.env.LIST_COMPANY_URL || LIST_COMPANY_URL, '', function(body) {
 		if (body.code == 200) {
 			res.send(response(200, 'GET LIST COMPANY SUCCESS', {body: body}))
 		} else {

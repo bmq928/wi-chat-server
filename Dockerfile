@@ -32,6 +32,9 @@ ENV DB_TIMEZONE=+07:00
 ENV PORT=80
 ENV URL=http://localhost:5001
 ENV UPLOAD_DIR=database/upload
+ENV LOGIN_URL=http://admin.i2g.cloud/login
+ENV LIST_USER_URL=http://admin.i2g.cloud/user/list
+ENV LIST_COMPANY_URL=http://admin.i2g.cloud/company/list
 
 EXPOSE 80
 
