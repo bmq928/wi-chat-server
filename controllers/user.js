@@ -11,10 +11,11 @@ var LIST_USER_URL = process.env.LIST_USER_URL || config.list_user_url || 'https:
 var LIST_COMPANY_URL = process.env.LIST_COMPANY_URL || config.list_company_url || 'http://admin.dev.i2g.cloud/company/list';
 var request = require('request');
 let randomColor = require('./randomColor');
+require('https').globalAgent.options.ca = require('ssl-root-cas/latest').create();
 // const jwt = require('jsonwebtoken'); 
 
 let doPost = function (req, res, url, token, callback) {
-	request({
+    console.log({
 		method: 'POST',
 		url: url,
 		json: true,
@@ -22,11 +23,20 @@ let doPost = function (req, res, url, token, callback) {
 		headers: {
 			'Authorization': token
 		  }
+	})
+	request({
+		method: 'POST',
+		url: url,
+		json: true,
+		body: req.body,
+		headers: {
+			'Authorization': token
+		},
+        strictSSL: false
 	}, function (err, response, body) {
-        console.log(err);
-        console.log(response);
-        console.log(body)
-        callback(body);
+        if (body) {
+            callback(body);
+        }
 	});
 }
 
