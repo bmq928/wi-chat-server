@@ -20,7 +20,7 @@ WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 
-RUN mkdir -p ./database/upload
+RUN mkdir -p ./upload
 
 ENV DB_NAME=wi_chat
 ENV DB_USER=root
