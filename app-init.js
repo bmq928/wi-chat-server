@@ -17,30 +17,39 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../wi-chat-client/public')));
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '../wi-chat-client/public/index.html'))
+    const crypto = require('crypto');
+
+    function getRandomHash() {
+        const current_date = (new Date()).valueOf().toString();
+        const random = Math.random().toString();
+        return (crypto.createHash('sha1').update(current_date + random).digest('hex'));
+    }
+    res.send({
+        serverId: getRandomHash()
+    });
 })
 
 //const influx = require('./database/influx');
 //app.use(function (req, res, next) {
-    //res.once('finish', (a) => {
-        ////console.log('influx');
-        //if (req.originalUrl == '/login' || req.decoded === 'undefined') {
-            //next();
-        //} else {
-            //console.log(req.decoded.username, req.ip, req.method, req.originalUrl);
-            ////influx.writePoints([
-                ////{
-                    ////measurement: 'monitor_chat',
-                    ////tags: { username: req.decoded.username, path: req.originalUrl },
-                    ////fields: { num: 1 },
-                ////}
-            ////]).catch(err => {
-                ////next();
-                ////console.error(`Error saving data to InfluxDB! ${err.stack}`)
-            ////})
-        //}
-    //});
-    //next();
+//res.once('finish', (a) => {
+////console.log('influx');
+//if (req.originalUrl == '/login' || req.decoded === 'undefined') {
+//next();
+//} else {
+//console.log(req.decoded.username, req.ip, req.method, req.originalUrl);
+////influx.writePoints([
+////{
+////measurement: 'monitor_chat',
+////tags: { username: req.decoded.username, path: req.originalUrl },
+////fields: { num: 1 },
+////}
+////]).catch(err => {
+////next();
+////console.error(`Error saving data to InfluxDB! ${err.stack}`)
+////})
+//}
+//});
+//next();
 //});
 
 app.use('/api', routesApi);
