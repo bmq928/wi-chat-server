@@ -52,7 +52,8 @@ router.post('/upload', multipartyMiddleware, (req, res) => {
 })
 //download
 router.get('/download/:folder/:fileName', (req, res) => {
-	res.download(PATH.join(__dirname, '../database/upload/' + req.params.folder + '/' + req.params.fileName), req.params.fileName.substr(33, req.params.fileName.length));
+	// res.download(PATH.join(__dirname, '../database/upload/' + req.params.folder + '/' + req.params.fileName), req.params.fileName.substr(33, req.params.fileName.length));
+	res.download(PATH.join(__dirname, '../' + (process.env.UPLOAD_DIR || configPath.upload_dir) + '/'+req.params.folder+'/'+req.params.fileName), req.params.fileName.substr(33, req.params.fileName.length));
 });
 router.get('/imageOrigin/:folder/:fileName', (req, res) => {
     ctrlImageOrigin.getImageOrigin(req, res);
