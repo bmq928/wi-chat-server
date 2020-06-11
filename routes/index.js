@@ -49,6 +49,9 @@ router.post('/conversation/list/admin', (req, res) => {
 router.post('/conversation/update', (req, res) => {
 	ctrlConversation.updateConversation(req, res);
 })
+router.post('/conversation/getDisableNoti', (req, res) => {
+	ctrlConversation.getDisableNoti(req, res);
+})
 //upload
 router.post('/upload', multipartyMiddleware, (req, res) => {
     ctrlUpload.upload(req,res);

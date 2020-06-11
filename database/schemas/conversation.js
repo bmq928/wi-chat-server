@@ -9,10 +9,6 @@ module.exports.define = function(sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING(100),
             allowNull: true
-        },
-        disableNoti: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true
         }
     });
 };

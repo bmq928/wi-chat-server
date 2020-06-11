@@ -24,6 +24,13 @@ db.User = require('./schemas/user.js').define(sequelize, Sequelize);
 db.Conversation = require('./schemas/conversation.js').define(sequelize, Sequelize);
 db.Message = require('./schemas/message.js').define(sequelize, Sequelize);
 db.NewMessage = require('./schemas/newMessage.js').define(sequelize, Sequelize);
+db.user_conversation = sequelize.define('user_conversation', {
+    disableNoti: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    }
+})
 
 db.Conversation.belongsToMany(db.User, {
     through : 'user_conversation',

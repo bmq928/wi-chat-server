@@ -2,6 +2,7 @@ var models = require('../database/db-connect');
 var response = require('./response');
 var User = models.User;
 var Conversation = models.Conversation;
+var user_conversation = models.user_conversation;
 var Message = models.Message;
 var NewMessage = models.NewMessage;
 var Op = models.Op;
@@ -9,9 +10,14 @@ var socket_io = require('../socket.io/socket.io').socket_io;
 var async = require('async');
 
 module.exports.updateConversation = (req, res) => {
-	Conversation.update(
+	user_conversation.update(
 		{ disableNoti: req.body.disableNoti },
-		{ where: { name: req.body.name } }
+		{
+			where: {
+				conversation_id: req.body.idConversation,
+				user_id: req.body.idUser
+			}
+		}
 	).then(result => {
 		res.send(response(200, 'SUCCESSFULLY', { status: 'Done' }));
 	}).catch(err => {
@@ -19,7 +25,23 @@ module.exports.updateConversation = (req, res) => {
 	})
 }
 
+module.exports.getDisableNoti = (req, res) => {
+	user_conversation.findOne(
+		{
+			where: {
+				conversation_id: req.body.idConversation,
+				user_id: req.body.idUser
+			}
+		}
+	).then(result => {
+		res.send(response(200, 'SUCCESSFULLY', result));
+	}).catch(err => {
+		res.send(response(200, 'Error', { err }));
+	})
+}
+
 module.exports.getConversation = (req, res) => {
+	console.log(req.body);
 	Conversation.findOne({
 		where: { name: req.body.name },
 		include: {
