@@ -8,6 +8,17 @@ var Op = models.Op;
 var socket_io = require('../socket.io/socket.io').socket_io;
 var async = require('async');
 
+module.exports.updateConversation = (req, res) => {
+	Conversation.update(
+		{ disableNoti: req.body.disableNoti },
+		{ where: { name: req.body.name } }
+	).then(result => {
+		res.send(response(200, 'SUCCESSFULLY', { status: 'Done' }));
+	}).catch(err => {
+		res.send(response(200, 'Error', { err }));
+	})
+}
+
 module.exports.getConversation = (req, res) => {
 	Conversation.findOne({
 		where: { name: req.body.name },

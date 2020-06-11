@@ -46,6 +46,9 @@ router.post('/conversation', (req, res) => {
 router.post('/conversation/list/admin', (req, res) => {
 	ctrlConversation.getListConversation(req, res);
 })
+router.post('/conversation/update', (req, res) => {
+	ctrlConversation.updateConversation(req, res);
+})
 //upload
 router.post('/upload', multipartyMiddleware, (req, res) => {
     ctrlUpload.upload(req,res);
