@@ -41,7 +41,7 @@ module.exports.getDisableNoti = (req, res) => {
 }
 
 module.exports.getConversation = (req, res) => {
-	console.log(req.body);
+	// console.log(req.body);
 	Conversation.findOne({
 		where: { name: req.body.name },
 		include: {
@@ -53,7 +53,6 @@ module.exports.getConversation = (req, res) => {
 		order: [[Message, 'sendAt', 'ASC']]
 	}).then(conver => {
 		if (conver) {
-			console.log("conver");
 			let numNewMess = 0;
 			conver.addUsers([req.decoded.id])
 				.then(function (result) {
@@ -79,7 +78,6 @@ module.exports.getConversation = (req, res) => {
 				name: req.body.name
 			}).then(conver => {
 				if (conver) {
-					console.log(conver);
 					conver.addUsers([req.decoded.id]);
 					if (conver.dataValues.name.indexOf('Help_Desk') != -1) (socket_io.socket).broadcast.emit('join-help-desk', conver);
 					res.send(response(200, 'SUCCESSFULLY', { user: req.decoded, conver: conver }));

@@ -3,3 +3,4 @@ package-lock.json
 database/upload/
 yarn.lock
 Dockerfile.local
+config/*local*

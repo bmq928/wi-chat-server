@@ -10,15 +10,15 @@ module.exports = function authenticate() {
         } else {
             let token = req.body.token || req.query.token || req.headers.authorization;
             if (token) {
-                console.log('auth', token);
+                // console.log('auth', token);
                 jwt.verify(token, 'secretKey', function (err, decoded) {
-                    console.log('decoded: ', decoded);
+                    // console.log('decoded: ', decoded);
                     req.decode = decoded;
                     if (err) {
                         console.error(err);
                         return res.status(401).send(responseJSON(401, 'Failed to authenticate' + err));
                     } else {
-                        console.log(decoded);
+                        // console.log(decoded);
                         User.findOne({
                             where: {
                                 username: decoded.username

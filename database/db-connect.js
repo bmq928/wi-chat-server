@@ -13,7 +13,8 @@ let db_options = {
     timezone: env.DB_TIMEZONE || configDb.options.timezone || '+07:00',
     define: {
         timestamps: env.TIMESTAMPS || (configDb.options.define || {}).timestamps || false
-    }
+    },
+    logging: false,
 }
 
 var sequelize = new Sequelize(env.DB_NAME || configDb.db_name, env.DB_USER || configDb.user, env.DB_PASSWORD || configDb.password, db_options);

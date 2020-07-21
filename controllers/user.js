@@ -15,15 +15,6 @@ require('https').globalAgent.options.ca = require('ssl-root-cas/latest').create(
 // const jwt = require('jsonwebtoken'); 
 
 let doPost = function (req, res, url, token, callback) {
-    console.log({
-		method: 'POST',
-		url: url,
-		json: true,
-		body: req.body,
-		headers: {
-			'Authorization': token
-		  }
-	})
 	request({
 		method: 'POST',
 		url: url,

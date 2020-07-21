@@ -19,7 +19,7 @@ module.exports.upload = (req, res) => {
                 } else {
                     console.log('******MKDIR UPLOAD SUCCESS********');
                     let file = req.files.file;
-                    let fileName = Date().split(' ').join('') + file.name;
+                    let fileName = Date.now() + file.name;
                     let path = PATH.join(__dirname, '../' + (env.UPLOAD_DIR || configPath.upload_dir) + '/' + req.body.name + '/' + fileName);
                     fs.copyFile(file.path, path, (err) => {
                         if (err) {
@@ -34,7 +34,7 @@ module.exports.upload = (req, res) => {
             });
         } else {
             let file = req.files.file;
-            let fileName = Date().split(' ').join('') + file.name;
+            let fileName = Date.now() + file.name;
             let path = PATH.join(__dirname, '../' + (env.UPLOAD_DIR || configPath.upload_dir) + '/' + req.body.name + '/' + fileName);
             fs.copyFile(file.path, path, (err) => {
                 console.log(err);

@@ -27,5 +27,8 @@
     },
     "login_url": "https://users.i2g.cloud/login",
     "list_user_url": "https://users.i2g.cloud/user/list",
-    "list_company_url": "https://users.i2g.cloud/company/list"
+    "list_company_url": "https://users.i2g.cloud/company/list",
+    "telegram": {
+        "groupChatId":  "-1001177625802"
+    }
 }
