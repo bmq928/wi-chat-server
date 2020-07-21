@@ -24,7 +24,7 @@ module.exports.postMessage = (req, res) => {
 		if (message) {
 			abc(req.body.idSender, req.body.idConversation, function(rs) {
 				if (rs == 1) {
-					if (req.body.nameConversation.includes('Help_Desk-')) {
+					if (req.body.nameConversation && req.body.nameConversation.includes('Help_Desk-')) {
 						sendToTelegram(req);
 					}
 					appProfile.io.in(req.body.idConversation).emit('sendMessage', req.body);
